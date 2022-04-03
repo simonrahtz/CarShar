@@ -5,6 +5,7 @@ import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -13,6 +14,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,6 +46,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(){
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -81,9 +84,8 @@ fun Greeting(){
 
 
         Button(onClick = {
-
-
-
+            //take input and convert to LatLng, then convert that to Location object
+            coordToLocation(geoCoder(text,context)).toString()
         },
             modifier = Modifier.padding(top = 20.dp)) {
             Text(text = "Start Trip")
@@ -92,11 +94,19 @@ fun Greeting(){
 
         }
 
-
-
+}
+fun coordToLocation(latLng: LatLng): Location {
+    return Location(LocationManager.GPS_PROVIDER).apply {
+        latitude = latLng.latitude
+        longitude = latLng.longitude
+    }
 }
 
-
+fun geoCoder(address: String, context: Context): LatLng{
+    var geocoder = Geocoder(context).getFromLocationName(address
+        ,1)
+    return LatLng(geocoder[0].latitude,geocoder[0].longitude)
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -106,3 +116,4 @@ fun DefaultPreview() {
 
     }
 }
+
