@@ -5,6 +5,7 @@ import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.widget.MediaController
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,6 +19,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.estimatekms.ui.theme.EstimateKmsTheme
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.CameraPosition
@@ -27,6 +30,9 @@ import com.google.android.gms.maps.model.Marker
 import org.intellij.lang.annotations.JdkConstants
 
 class MainActivity : ComponentActivity() {
+
+    lateinit var navController: NavHostController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -36,7 +42,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    EnterDestination()
+                    navController = rememberNavController()
+                    SetUpNavGraph(navController = navController)
+
                 }
             }
         }
@@ -49,7 +57,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     EstimateKmsTheme {
-        EnterDestination()
+
 
     }
 }

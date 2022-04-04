@@ -15,11 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.estimatekms.ui.theme.EstimateKmsTheme
 import com.google.android.gms.maps.model.LatLng
 
 @Composable
-fun EnterDestination(){
+fun EnterDestination(navController: NavController){
     val context = LocalContext.current
     Column(
         modifier = Modifier
@@ -59,7 +61,9 @@ fun EnterDestination(){
 
         Button(onClick = {
             //take input address and convert to LatLng, then convert that to Location object
-            coordToLocation(geoCoder(text,context))
+            if(text.isNotEmpty())
+            {coordToLocation(geoCoder(text,context))}
+            navController.navigate(route = Screen.Map.route)
         },
             modifier = Modifier.padding(top = 20.dp)) {
             Text(text = "Start Trip")
@@ -86,7 +90,7 @@ fun geoCoder(address: String, context: Context): LatLng {
 @Composable
 fun EnterDestinationPreview() {
     EstimateKmsTheme {
-        EnterDestination()
+        EnterDestination(navController = rememberNavController())
 
     }
 }
