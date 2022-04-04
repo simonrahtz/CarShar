@@ -63,7 +63,7 @@ fun EnterDestination(navController: NavController){
             //take input address and convert to LatLng, then convert that to Location object
             if(text.isNotEmpty())
             {coordToLocation(geoCoder(text,context))}
-            navController.navigate(route = Screen.Map.route)
+            navController.navigate("map")
         },
             modifier = Modifier.padding(top = 20.dp)) {
             Text(text = "Start Trip")

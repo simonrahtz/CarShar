@@ -2,6 +2,7 @@ package com.example.estimatekms
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -10,24 +11,30 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.estimatekms.ui.theme.EstimateKmsTheme
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.*
 
 @Composable
 fun MapScreen() {
-    val context = LocalContext.current
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 40.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-    ) {
-        Box(Modifier.padding(bottom = 10.dp)) {
-            Text(
-                text = "View on map",
-                style = MaterialTheme.typography.h6
-            )
+    Scaffold {
+
+        val destination = LatLng(-33.832990, 151.241040)
+        val cameraPositionState = rememberCameraPositionState {
+            position = CameraPosition.fromLatLngZoom(destination,15f)
+        }
+
+
+        GoogleMap(
+            modifier = Modifier.fillMaxSize(),
+            properties = MapProperties(),
+            uiSettings = MapUiSettings(zoomControlsEnabled = true),
+            cameraPositionState = cameraPositionState,
+
+            ){
 
         }
+
     }
 }
 
